@@ -8,11 +8,8 @@ import { handleFileUpload } from '../middlewares/handleFileUpload';
 const router = Router();
 const productController = new ProductController();
 
-// Use upload.single('coverArt') BEFORE validation if validation checks file properties, 
-// OR handle validation inside controller if schemas don't support file objects easily.
-// Note: express-validator/zod middleware might struggle with FormData unless parsed first.
 router.post('/', 
-    upload.single('coverArtUrl'), 
+    upload.single('coverArt'), 
     handleFileUpload,
     validate(createProductSchema), 
     productController.createProduct.bind(productController));
