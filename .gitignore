@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build output
+dist
+build
+
+# Env files
+.env
+.env.local
+
+# Storage
+public/uploads/*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode
