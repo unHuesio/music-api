@@ -9,7 +9,8 @@ WORKDIR /usr/src/app
 RUN npm install -g pnpm
 
 # Copy package.json and pnpm-lock.yaml for dependency installation
-COPY package.json pnpm-lock.yaml ./
+COPY package.json .
+COPY pnpm-lock.yaml .
 
 # Install production dependencies.
 # If you have devDependencies needed for build, remove --prod or separate build stage
