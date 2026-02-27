@@ -29,3 +29,19 @@ https://music-api-29813145857.europe-west1.run.app/api-docs
 - vitest: to write unit tests
 - supertests: to write integration tests
 
+#### Commands
+
+```pnpm run test``` run tests
+
+```pnpm run build``` run build
+
+```pnpm run dev``` run dev mode
+
+```pnpm run start``` starts server after build
+
+#### ENV Configuration
+
+SUPABASE_URL= URL to connect so supabase
+SUPABASE_ANON_KEY= Anon key for client configuration
+CORS_ORIGINS= Allowed domains 
+
