@@ -14,46 +14,17 @@ const allowedOrigins = (process.env.CORS_ORIGINS ?? 'http://localhost:5173,http:
     .map((origin) => origin.trim())
     .filter(Boolean);
 
-const isOriginAllowed = (origin: string): boolean => {
-    return allowedOrigins.some((allowedOrigin) => {
-        if (allowedOrigin === '*') {
-            return true;
-        }
-
-        if (!allowedOrigin.includes('*')) {
-            return origin === allowedOrigin;
-        }
-
-        const escapedPattern = allowedOrigin.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
-        const wildcardRegex = new RegExp(`^${escapedPattern}$`);
-
-        return wildcardRegex.test(origin);
-    });
-};
-
 const corsOptions: cors.CorsOptions = {
-    origin: (origin, callback) => {
-        if (!origin) {
-            callback(null, true);
-            return;
-        }
+    origin: allowedOrigins,
+    credentials: true,
+    optionsSuccessStatus: 200 
+}
 
-        if (isOriginAllowed(origin)) {
-            callback(null, true);
-            return;
-        }
-
-        callback(new Error(`CORS blocked for origin: ${origin}`));
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-};
 
 app.use(helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
 })); 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 app.use(express.json()); 
 
 // Serve static files from the 'public' directory
