@@ -14,6 +14,23 @@ const allowedOrigins = (process.env.CORS_ORIGINS ?? 'http://localhost:5173,http:
     .map((origin) => origin.trim())
     .filter(Boolean);
 
+const isOriginAllowed = (origin: string): boolean => {
+    return allowedOrigins.some((allowedOrigin) => {
+        if (allowedOrigin === '*') {
+            return true;
+        }
+
+        if (!allowedOrigin.includes('*')) {
+            return origin === allowedOrigin;
+        }
+
+        const escapedPattern = allowedOrigin.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+        const wildcardRegex = new RegExp(`^${escapedPattern}$`);
+
+        return wildcardRegex.test(origin);
+    });
+};
+
 const corsOptions: cors.CorsOptions = {
     origin: (origin, callback) => {
         if (!origin) {
@@ -21,7 +38,7 @@ const corsOptions: cors.CorsOptions = {
             return;
         }
 
-        if (allowedOrigins.includes(origin)) {
+        if (isOriginAllowed(origin)) {
             callback(null, true);
             return;
         }
@@ -29,6 +46,7 @@ const corsOptions: cors.CorsOptions = {
         callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(helmet({
