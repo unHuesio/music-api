@@ -16,3 +16,16 @@ https://music-api-29813145857.europe-west1.run.app
 
 https://music-api-29813145857.europe-west1.run.app/api-docs
 
+#### Technical Choices
+
+- Express: lightweight and not bloated, minimal framework to build apis
+- Helm: middleware to add security headers
+- cors: middleware to configure cors
+- multer: middleware to handle file uploads
+- sharp: middleware to handle image processing
+- swagger: for documentation
+- zod: for validations
+- supabase: to create supabase client
+- vitest: to write unit tests
+- supertests: to write integration tests
+
