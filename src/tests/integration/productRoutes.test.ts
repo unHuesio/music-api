@@ -10,7 +10,6 @@ describe('POST /api/products', () => {
                 name: 'Test Song',
                 artistName: 'Test Artist',
                 coverArtUrl: 'https://example.com/test.jpg',
-                coverArtType: 'image/jpeg'
             });
 
         expect(response.status).toBe(201);
@@ -49,7 +48,6 @@ describe('GET /api/products/:id', () => {
                 name: 'Product for GetById',
                 artistName: 'Artist',
                 coverArtUrl: 'https://example.com/getbyid.jpg',
-                coverArtType: 'image/jpeg'
             });
 
         expect(createResponse.status).toBe(201);
@@ -135,7 +133,6 @@ describe('DELETE /api/products/:id', () => {
                 name: 'Product to Delete',
                 artistName: 'Artist',
                 coverArtUrl: 'https://example.com/delete.jpg',
-                coverArtType: 'image/jpeg'
             });
 
         expect(createResponse.status).toBe(201);

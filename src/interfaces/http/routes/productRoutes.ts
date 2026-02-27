@@ -9,7 +9,7 @@ const router = Router();
 const productController = new ProductController();
 
 router.post('/', 
-    upload.single('coverArt'), 
+    upload.single('coverArtUrl'), 
     handleFileUpload,
     validate(createProductSchema), 
     productController.createProduct.bind(productController));

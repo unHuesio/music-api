@@ -4,6 +4,7 @@ import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpecs } from './config/swagger';
 import { productRouter } from '../interfaces'; 
+import { errorHandler } from '../interfaces/http/middlewares/errorHandler';
 
 const app: Express = express()
 
@@ -21,5 +22,7 @@ app.use('/api/products', productRouter);
 app.get('/', (req: Request, res: Response): void => {
     res.send('Hello World!')
 })
+
+app.use(errorHandler);
 
 export { app };
