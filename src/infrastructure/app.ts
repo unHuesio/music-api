@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express'
+import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
@@ -8,7 +9,33 @@ import { errorHandler } from '../interfaces/http/middlewares/errorHandler';
 
 const app: Express = express()
 
-app.use(helmet()); 
+const allowedOrigins = (process.env.CORS_ORIGINS ?? 'http://localhost:5173,http://localhost:3000')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+const corsOptions: cors.CorsOptions = {
+    origin: (origin, callback) => {
+        if (!origin) {
+            callback(null, true);
+            return;
+        }
+
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+            return;
+        }
+
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+};
+
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+})); 
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json()); 
 
 // Serve static files from the 'public' directory
