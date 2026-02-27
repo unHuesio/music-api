@@ -1,16 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import sharp from 'sharp';
 import path from 'path';
+import fs from 'fs/promises';
 
 export const handleFileUpload = async (req: Request, res: Response, next: NextFunction) => {
     if (req.file) {
         try {
+            const uploadDir = path.join('public', 'uploads');
+            await fs.mkdir(uploadDir, { recursive: true });
+
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
             const originalFilename = `coverArt-${uniqueSuffix}-original.png`;
             const smallFilename = `coverArt-${uniqueSuffix}-small.png`;
             
-            const originalFilepath = path.join('public/uploads', originalFilename);
-            const smallFilepath = path.join('public/uploads', smallFilename);
+            const originalFilepath = path.join(uploadDir, originalFilename);
+            const smallFilepath = path.join(uploadDir, smallFilename);
 
             // 1. Save Original (converted to PNG for consistency/optimization)
             await sharp(req.file.buffer)

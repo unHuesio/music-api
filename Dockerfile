@@ -22,5 +22,8 @@ COPY . .
 # Build the TypeScript application
 RUN pnpm run build
 
+# Ensure uploads directory exists at runtime
+RUN mkdir -p public/uploads
+
 # Start the application
 CMD [ "pnpm", "start" ]
