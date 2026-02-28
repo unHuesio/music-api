@@ -42,16 +42,22 @@ https://music-api-29813145857.europe-west1.run.app/api-docs
 #### ENV Configuration
 
 SUPABASE_URL= URL to connect so supabase
+
 SUPABASE_ANON_KEY= Anon key for client configuration
+
 SUPABASE_SERVICE_ROLE_KEY= key for storage uploads
+
 SUPABASE_STORAGE_BUCKET= storage bucket name for image uploads
+
 CORS_ORIGINS= Allowed domains
 
 #### Deployment
 
 Google Cloud Run: Scalable container
+
 Storage: Supabase storage for images - free tier
-Database: Supabase postgress free database
+
+Database: Supabase postgres free database
 
 
 
