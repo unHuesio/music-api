@@ -25,7 +25,7 @@ https://music-api-29813145857.europe-west1.run.app/api-docs
 - sharp: middleware to handle image processing
 - swagger: for documentation
 - zod: for validations
-- supabase: to create supabase client
+- supabase: to create supabase client and handle img uploads to bucket
 - vitest: to write unit tests
 - supertests: to write integration tests
 
@@ -43,5 +43,15 @@ https://music-api-29813145857.europe-west1.run.app/api-docs
 
 SUPABASE_URL= URL to connect so supabase
 SUPABASE_ANON_KEY= Anon key for client configuration
-CORS_ORIGINS= Allowed domains 
+SUPABASE_SERVICE_ROLE_KEY= key for storage uploads
+SUPABASE_STORAGE_BUCKET= storage bucket name for image uploads
+CORS_ORIGINS= Allowed domains
+
+#### Deployment
+
+Google Cloud Run: Scalable container
+Storage: Supabase storage for images - free tier
+Database: Supabase postgress free database
+
+
 

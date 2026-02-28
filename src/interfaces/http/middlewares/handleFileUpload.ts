@@ -1,41 +1,65 @@
 import { Request, Response, NextFunction } from 'express';
 import sharp from 'sharp';
-import path from 'path';
-import fs from 'fs/promises';
+import { supabaseAdmin } from '../../../infrastructure/database/supabase/client';
+
+const storageBucket = process.env.SUPABASE_STORAGE_BUCKET ?? 'music-art';
 
 export const handleFileUpload = async (req: Request, res: Response, next: NextFunction) => {
     if (req.file) {
         try {
-            const uploadDir = path.join('public', 'uploads');
-            await fs.mkdir(uploadDir, { recursive: true });
-
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
             const originalFilename = `coverArt-${uniqueSuffix}-original.png`;
             const smallFilename = `coverArt-${uniqueSuffix}-small.png`;
-            
-            const originalFilepath = path.join(uploadDir, originalFilename);
-            const smallFilepath = path.join(uploadDir, smallFilename);
 
-            // 1. Save Original (converted to PNG for consistency/optimization)
-            await sharp(req.file.buffer)
+            const originalBuffer = await sharp(req.file.buffer)
                 .toFormat('png', { quality: 90 })
-                .toFile(originalFilepath);
+                .toBuffer();
 
-            // 2. Save Small Version (Resize)
-            await sharp(req.file.buffer)
+            const smallBuffer = await sharp(req.file.buffer)
                 .resize(200, 200, {
                     fit: 'inside',
-                    withoutEnlargement: true 
+                    withoutEnlargement: true
                 })
                 .toFormat('png', { quality: 80 })
-                .toFile(smallFilepath);
+                .toBuffer();
 
-            // Store the path to the original image in the body
-            // You could also store the small one if you have a field for it
-            req.body.coverArtUrl = `/static/uploads/${originalFilename}`;
+            const originalPath = `products/${originalFilename}`;
+            const smallPath = `products/${smallFilename}`;
+
+            const { error: originalUploadError } = await supabaseAdmin.storage
+                .from(storageBucket)
+                .upload(originalPath, originalBuffer, {
+                    contentType: 'image/png',
+                    upsert: false,
+                });
+
+            if (originalUploadError) {
+                throw new Error(`Original image upload failed: ${originalUploadError.message}`);
+            }
+
+            const { error: smallUploadError } = await supabaseAdmin.storage
+                .from(storageBucket)
+                .upload(smallPath, smallBuffer, {
+                    contentType: 'image/png',
+                    upsert: false,
+                });
+
+            if (smallUploadError) {
+                throw new Error(`Small image upload failed: ${smallUploadError.message}`);
+            }
+
+            const { data: originalPublicUrlData } = supabaseAdmin.storage
+                .from(storageBucket)
+                .getPublicUrl(originalPath);
+
+            const { data: smallPublicUrlData } = supabaseAdmin.storage
+                .from(storageBucket)
+                .getPublicUrl(smallPath);
+
+            req.body.coverArtUrl = originalPublicUrlData.publicUrl;
+            req.body.coverArtSmallUrl = smallPublicUrlData.publicUrl;
             req.body.coverArtType = 'image/png';
-            
-            // Advance to next middleware
+
             next();
         } catch (error) {
             next(error);
