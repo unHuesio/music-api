@@ -7,7 +7,7 @@ const storageBucket = process.env.SUPABASE_STORAGE_BUCKET ?? 'music-art';
 export const handleFileUpload = async (req: Request, res: Response, next: NextFunction) => {
     if (req.file) {
         try {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            const uniqueSuffix = Date.now() + '-' + crypto.randomUUID();
             const originalFilename = `coverArt-${uniqueSuffix}-original.png`;
             const smallFilename = `coverArt-${uniqueSuffix}-small.png`;
 
