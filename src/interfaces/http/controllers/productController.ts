@@ -9,9 +9,9 @@ export class ProductController {
 
     async createProduct(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const { name, artistName, coverArtUrl } = req.body;
+            const { name, artistName, coverArt } = req.body;
 
-            const product = await productService.createProduct(name, artistName, coverArtUrl);
+            const product = await productService.createProduct(name, artistName, coverArt);
             
             res.status(201).json({ message: 'Product created successfully', product });
         } catch (error) {
@@ -45,9 +45,9 @@ export class ProductController {
     async updateProduct(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { id } = req.params;
-            const { name, artistName, coverArtUrl } = req.body;
+            const { name, artistName, coverArt } = req.body;
 
-            const product = await productService.updateProduct(id as string, name, artistName, coverArtUrl);
+            const product = await productService.updateProduct(id as string, name, artistName, coverArt);
             
             res.status(200).json({ message: 'Product updated successfully' , product });
         } catch (error) {

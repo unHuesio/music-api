@@ -9,7 +9,7 @@ describe('POST /api/products', () => {
             .send({
                 name: 'Test Song',
                 artistName: 'Test Artist',
-                coverArtUrl: 'https://example.com/test.jpg',
+                coverArt: 'https://example.com/test.jpg',
             });
 
         expect(response.status).toBe(201);
@@ -47,7 +47,7 @@ describe('GET /api/products/:id', () => {
             .send({
                 name: 'Product for GetById',
                 artistName: 'Artist',
-                coverArtUrl: 'https://example.com/getbyid.jpg',
+                coverArt: 'https://example.com/getbyid.jpg',
             });
 
         expect(createResponse.status).toBe(201);
@@ -80,7 +80,7 @@ describe('PUT /api/products/:id', () => {
             .send({
                 name: 'Product to Update',
                 artistName: 'Artist',
-                coverArtUrl: 'https://example.com/update.jpg',
+                coverArt: 'https://example.com/update.jpg',
                 coverArtType: 'image/jpeg'
             });
 
@@ -132,7 +132,7 @@ describe('DELETE /api/products/:id', () => {
             .send({
                 name: 'Product to Delete',
                 artistName: 'Artist',
-                coverArtUrl: 'https://example.com/delete.jpg',
+                coverArt: 'https://example.com/delete.jpg',
             });
 
         expect(createResponse.status).toBe(201);

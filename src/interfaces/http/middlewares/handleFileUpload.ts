@@ -56,8 +56,8 @@ export const handleFileUpload = async (req: Request, res: Response, next: NextFu
                 .from(storageBucket)
                 .getPublicUrl(smallPath);
 
-            req.body.coverArtUrl = originalPublicUrlData.publicUrl;
-            req.body.coverArtSmallUrl = smallPublicUrlData.publicUrl;
+            req.body.coverArt = originalPublicUrlData.publicUrl;
+            req.body.coverArtSmall = smallPublicUrlData.publicUrl;
             req.body.coverArtType = 'image/png';
 
             next();

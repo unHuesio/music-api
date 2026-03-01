@@ -9,13 +9,13 @@ const router = Router();
 const productController = new ProductController();
 
 router.post('/', 
-    upload.single('coverArtUrl'), 
+    upload.single('coverArt'), 
     handleFileUpload,
     validate(createProductSchema), 
     productController.createProduct.bind(productController));
 router.get('/', productController.getAllProducts.bind(productController));
 router.get('/:id', validate(getProductByIdSchema), productController.getProductById.bind(productController));
-router.put('/:id', validate(updateProductSchema), productController.updateProduct.bind(productController));
+router.put('/:id', upload.single('coverArt'), handleFileUpload, validate(updateProductSchema), productController.updateProduct.bind(productController));
 router.delete('/:id', validate(deleteProductSchema), productController.deleteProduct.bind(productController));
 
 export { router as productRouter };

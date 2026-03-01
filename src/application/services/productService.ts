@@ -11,8 +11,8 @@ export class ProductService {
         this.productRepository = productRepository;
     }
 
-    async createProduct(name: string, artistName: string, coverArtUrl: string): Promise<Product> {
-        const product = await this.productRepository.addProduct(Product.create(name, artistName, coverArtUrl));
+    async createProduct(name: string, artistName: string, coverArt: string): Promise<Product> {
+        const product = await this.productRepository.addProduct(Product.create(name, artistName, coverArt));
         return product;
     }
 
@@ -20,7 +20,7 @@ export class ProductService {
         return await this.productRepository.getAllProducts();
     }
 
-    async updateProduct(id: string, name?: string, artistName?: string, coverArtUrl?: string): Promise<Product> {
+    async updateProduct(id: string, name?: string, artistName?: string, coverArt?: string): Promise<Product> {
         const product = await this.productRepository.findProductById(id);
         if (!product) {
             throw new Error('Product not found');
@@ -29,7 +29,7 @@ export class ProductService {
         const updatedProduct = Product.create(
             name ?? product.name,
             artistName ?? product.artist,
-            coverArtUrl ?? product.coverArt,
+            coverArt ?? product.coverArt,
             id ?? product.id
         );
 
