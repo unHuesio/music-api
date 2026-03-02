@@ -1,3 +1,4 @@
+import { format } from 'path';
 import swaggerJsdoc from 'swagger-jsdoc';
 
 const options: swaggerJsdoc.Options = {
@@ -29,7 +30,7 @@ const options: swaggerJsdoc.Options = {
              id: { type: 'string', format: 'uuid' },
              name: { type: 'string' },
              artist: { type: 'string' },
-             coverArt: { type: 'string' },
+             coverArt: { type: 'string', format: 'url' },
            }
         }
       }
