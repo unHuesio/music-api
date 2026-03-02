@@ -9,8 +9,8 @@ export class SupabaseProductRepository implements IProductRepository {
             .from('products')
             .insert({
                 name: product.name,
-                artist: product.artist, // Assuming we store artist name or id
-                cover_art: product.coverArt // Assuming we store cover art URL
+                artist: product.artist,
+                cover_art: product.coverArt
             })
             .select()
             .single();
