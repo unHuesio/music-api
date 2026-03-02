@@ -25,9 +25,17 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Product'
+              type: object
+              properties:
+                name:
+                  type: string
+                artistName:
+                  type: string
+                coverArt:
+                  type: string
+                  format: binary
       responses:
         '200':
           description: Product updated successfully
