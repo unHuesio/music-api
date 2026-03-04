@@ -1,11 +1,11 @@
 
-import { supabase } from '../client';
+import { supabaseAdmin } from '../client';
 import { IProductRepository, Product } from '../../../../domain'
 
 
 export class SupabaseProductRepository implements IProductRepository {
     async addProduct(product: Product): Promise<Product> {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('products')
             .insert({
                 name: product.name,
@@ -20,7 +20,7 @@ export class SupabaseProductRepository implements IProductRepository {
     }
 
     async getAllProducts(): Promise<Product[]> {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('products')
             .select('*');
 
@@ -30,7 +30,7 @@ export class SupabaseProductRepository implements IProductRepository {
     }
 
     async removeProductById(id: string): Promise<void> {
-        const { error } = await supabase
+        const { error } = await supabaseAdmin
             .from('products')
             .delete()
             .eq('id', id);
@@ -39,7 +39,7 @@ export class SupabaseProductRepository implements IProductRepository {
     }
 
     async findProductById(id: string): Promise<Product | undefined> {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('products')
             .select('*')
             .eq('id', id)
@@ -50,7 +50,7 @@ export class SupabaseProductRepository implements IProductRepository {
     }
 
     async updateProduct(updatedProduct: Product): Promise<Product> {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('products')
             .update({
                 name: updatedProduct.name,

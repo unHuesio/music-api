@@ -43,9 +43,9 @@ https://music-api-29813145857.europe-west1.run.app/api-docs
 
 SUPABASE_URL= URL to connect so supabase
 
-SUPABASE_ANON_KEY= Anon key for client configuration
+SUPABASE_ANON_KEY= Anon key for public client usage
 
-SUPABASE_SERVICE_ROLE_KEY= key for storage uploads
+SUPABASE_SERVICE_ROLE_KEY= Required for backend DB operations and storage uploads
 
 SUPABASE_STORAGE_BUCKET= storage bucket name for image uploads
 

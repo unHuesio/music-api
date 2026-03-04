@@ -8,6 +8,9 @@ CREATE TABLE public.products (
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- Enable Row Level Security to block unrestricted Data API access
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+
 -- Trigger to update updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
